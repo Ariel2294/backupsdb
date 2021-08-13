@@ -10,6 +10,7 @@ module.exports = {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
+    console.log("iniciando creacion de sql");
     const name_backup = `Backup-automatico-${now.format("DD-MM-YYYY-hmmsA")}`;
     const date = now.format("DD-MM-YYYY-hmmsA");
     const result = await mysqldump({
@@ -22,6 +23,8 @@ module.exports = {
       },
       dumpToFile: `${dir}/${name_backup}.sql`,
     });
+    console.log("finalizando creacion de sql");
+
     return { result, name_backup, date };
   },
 };

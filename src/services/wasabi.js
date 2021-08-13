@@ -13,7 +13,12 @@ module.exports = {
       endpoint: wasabiEndpoint,
       accessKeyId: accessKeyId,
       secretAccessKey: secretAccessKey,
+      httpOptions: {
+        connectTimeout: 2400000,
+        timeout: 2400000,
+      },
     });
+    console.log("iniciando envio de sql");
 
     const bucketName = process.env.WS_BUCKET_NAME;
     const dir = path.join(__dirname, `../../tmp`);
@@ -29,7 +34,7 @@ module.exports = {
       queueSize: 10,
     };
 
-    s3.upload(params, options, async (err, data) => {
+    s3.upload(params, async (err, data) => {
       if (!err) {
         //console.log(data); // successful response
         await mail.sendmail(
@@ -50,12 +55,13 @@ module.exports = {
         if (fsextra.existsSync(filePath)) {
           fsextra.remove(filePath);
         }
+        console.log("finalizando envio de sql");
       } else {
-        //console.log(err); // an error occurred
+        console.log(err); // an error occurred
 
         await mail.sendmail(
           process.env.MAIL_DESTINATION,
-          `ERROR RESPALDO AUTOMATICO EN-${data.Bucket}-DB-${process.env.DB_NAME}`,
+          `ERROR RESPALDO AUTOMATICO EN-${bucketName}-DB-${process.env.DB_NAME}`,
           `
         
         ${err}
