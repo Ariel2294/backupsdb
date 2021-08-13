@@ -4,7 +4,7 @@ const fs = require("fs");
 const mail = require("./mail");
 const fsextra = require("fs-extra");
 module.exports = {
-  upload: async (name_file, folder) => {
+  upload: async (name_file, folder, folder_mes, dia_name, year) => {
     const accessKeyId = process.env.WS_ACCESS_KEYID;
     const secretAccessKey = process.env.WS_SECRET_ACCESS_KEY;
 
@@ -25,7 +25,9 @@ module.exports = {
     const filePath = `${dir}/${name_file}.sql`;
     const params = {
       Bucket: bucketName,
-      Key: `Backup-${folder}/${path.basename(filePath)}`,
+      Key: `${folder_mes}-${year}/Backup-${dia_name}-${folder}/${path.basename(
+        filePath
+      )}`,
       Body: fs.createReadStream(filePath),
     };
 
@@ -34,7 +36,7 @@ module.exports = {
       queueSize: 10,
     };
 
-    s3.upload(params, async (err, data) => {
+    s3.upload(params, options, async (err, data) => {
       if (!err) {
         //console.log(data); // successful response
         await mail.sendmail(
