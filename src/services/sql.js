@@ -2,15 +2,16 @@ require("dotenv").config();
 const mysqldump = require("mysqldump");
 const path = require("path");
 const momenttz = require("moment-timezone");
-const now = momenttz().tz("America/El_Salvador");
 var fs = require("fs");
 module.exports = {
   backupdb: async () => {
+    const now = momenttz().tz("America/El_Salvador");
     const dir = path.join(__dirname, `../../tmp`);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
     const name_backup = `Backup-automatico-${now.format("DD-MM-YYYY-hmmsA")}`;
+    const date = now.format("DD-MM-YYYY-hmmsA");
     const result = await mysqldump({
       connection: {
         host: process.env.DB_HOST,
@@ -21,6 +22,6 @@ module.exports = {
       },
       dumpToFile: `${dir}/${name_backup}.sql`,
     });
-    return result;
+    return { result, name_backup, date };
   },
 };

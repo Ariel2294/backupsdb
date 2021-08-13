@@ -5,7 +5,7 @@
   "main": "./src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"node ./src/app.js"
+    "dev": "node ./src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "2.967.0",
     "dotenv": "10.0.0",
+    "fs-extra": "10.0.0",
     "moment": "2.29.1",
     "moment-timezone": "0.5.33",
     "mysqldump": "3.2.0",

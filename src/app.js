@@ -1,16 +1,16 @@
 const sql = require("./services/sql");
-const mail = require("./services/mail");
+const ws = require("./services/wasabi");
 
-// sql
-//   .backupdb()
-//   .then(() => {
-//     //Si todo está bien se sube a wasabi
-//   })
-//   .catch(() => {});
+const cron = require("node-cron");
 
-const resultado = mail.sendmail(
-  "arielopez229422@gmail.com",
-  "prueba",
-  "testing"
-);
-console.log(resultado);
+const task = cron.schedule("* * * * *", () => {
+  console.log("running a task every minute");
+  sql
+    .backupdb()
+    .then((result) => {
+      ws.upload(result.name_backup, result.date);
+    })
+    .catch((err) => {});
+});
+
+task.start();
