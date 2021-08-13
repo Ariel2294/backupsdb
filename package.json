@@ -1,0 +1,23 @@
+{
+  "name": "backupsdb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"node ./src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "2.967.0",
+    "dotenv": "10.0.0",
+    "moment": "2.29.1",
+    "moment-timezone": "0.5.33",
+    "mysqldump": "3.2.0",
+    "node-cron": "3.0.0",
+    "nodemailer": "6.6.3",
+    "winston": "3.3.3"
+  }
+}
