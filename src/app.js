@@ -1,16 +1,24 @@
 const sql = require("./services/sql");
-const mail = require("./services/mail");
+const ws = require("./services/wasabi");
 
-// sql
-//   .backupdb()
-//   .then(() => {
-//     //Si todo está bien se sube a wasabi
-//   })
-//   .catch(() => {});
+const cron = require("node-cron");
+//M H DM M DS
+const task = cron.schedule(process.env.CRON, () => {
+  console.log("running a task every minute");
+  sql
+    .backupdb()
+    .then((result) => {
+      ws.upload(
+        result.name_backup,
+        result.date,
+        result.mes_name,
+        result.dia_name,
+        result.year
+      );
+    })
+    .catch((err) => {
+      console.log("Erro generar backup", err);
+    });
+});
 
-const resultado = mail.sendmail(
-  "arielopez229422@gmail.com",
-  "prueba",
-  "testing"
-);
-console.log(resultado);
+task.start();
