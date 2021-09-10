@@ -3,7 +3,7 @@ const ws = require("./services/wasabi");
 
 const cron = require("node-cron");
 //M H DM M DS
-const task = cron.schedule("51 15 * * *", () => {
+const task = cron.schedule(process.env.CRON, () => {
   console.log("running a task every minute");
   sql
     .backupdb()
