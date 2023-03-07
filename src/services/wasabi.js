@@ -17,6 +17,7 @@ module.exports = {
         connectTimeout: 2400000,
         timeout: 2400000,
       },
+      region: process.env.WS_REGION,
     });
     console.log("iniciando envio de sql");
 
